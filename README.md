@@ -19,7 +19,7 @@ AAAI Press, 2018.
 # Get the paper results quickly
 Some already well-trained models ('*.h5' files) are in the folder directory '/models' 
 Change the file path (refer to the parameter 'param_file')  in the AugPANNILM_test.py, and you will get the results soon.
-    for example: param_file = args.trained_model_dir + '/UK_DALE'+ '/AugPANP_' + args.appliance_name + '_pointnet_model'
+    For example: param_file = args.trained_model_dir + '/UK_DALE'+ '/AugPANP_' + args.appliance_name + '_pointnet_model'
 note:AugPAN and AugPANP (AugPAN with attention mechanism) are our proposed models
 
 # --------------------***Reproduce  our results***-----start--------------------
