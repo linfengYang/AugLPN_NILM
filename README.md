@@ -1,5 +1,5 @@
 # **
-In this repository are available codes for implementation of our study,'*********'.
+In this repository are available codes for implementation of our study.
 
 # Requirements:
 The version of python should preferably be greater than 3.7
