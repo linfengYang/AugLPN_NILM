@@ -1,5 +1,5 @@
 """
-Created on Thu 2020
+Created on Sep 2022
 
 ####################################################################################
 # This code is to train a neural network to perform energy disaggregation,
@@ -8,24 +8,19 @@ Created on Thu 2020
 #
 # Inputs: mains windows -- find the window length in params_appliance
 # Targets: appliances windows --
-#
-#
-# This code is written by Jia, Ziyue based on the code from
-#  1. https://github.com/cbrewitt/nilm_fcn (which was written by Cillian Brewitt)
-#  2. https://github.com/MingjunZhong/NeuralNetNilm (which was written by Chaoyun Zhang and Mingjun Zhong)
 
 # References:
 
 1. Brewitt, Cillian , and N. Goddard . "Non-Intrusive Load Monitoring with Fully
 Convolutional Networks." (2018). arXiv:1812.03915
+2. https://github.com/cbrewitt/nilm_fcn (which was written by Cillian Brewitt)
 
-
-2.  Chaoyun Zhang, Mingjun Zhong, Zongzuo Wang, Nigel Goddard, and Charles Sutton.
+3.  Chaoyun Zhang, Mingjun Zhong, Zongzuo Wang, Nigel Goddard, and Charles Sutton.
 # ``Sequence-to-point learning with neural networks for nonintrusive load monitoring."
 # Thirty-Second AAAI Conference on Articial Intelligence (AAAI-18), Feb. 2-7, 2018.
 ####################################################################################
 
-Updated on 2020:
+Updated on 2022:
 - Python 3
 
 """
@@ -42,7 +37,7 @@ import tensorflow._api.v2.compat.v1 as tf
 tf.disable_v2_behavior()
 
 #############
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from tensorflow.keras.layers import Input
 import tensorflow.keras.backend as K
@@ -173,7 +168,7 @@ log('Validation dataset: ' + validation_path)
 # offset parameter from window length
 #offset = int(0.5*(params_appliance[args.appliance_name]['windowlength']-1.0))
 
-windowlength = 1053
+windowlength = 2053
 #params_appliance[args.appliance_name]['windowlength']
 
 # Defining object for training set loading and windowing provider (DataProvider.py)
