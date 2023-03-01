@@ -2,8 +2,7 @@ from Arguments import *
 from Logger import log
 from tensorflow.keras.models import Model  # Input,
 from tensorflow.keras.layers import MaxPooling1D,Dense, Dropout, Conv2D, GlobalMaxPooling2D, Flatten, Reshape, Lambda, dot, \
-    UpSampling2D, Add, Concatenate, Activation, concatenate, Conv1D, SpatialDropout1D, BatchNormalization, add, GRU, \
-    Bidirectional
+    UpSampling2D, Add, Concatenate, Activation, concatenate, Conv1D, BatchNormalization, add
 from tensorflow.keras.utils import plot_model  
 import numpy as np
 import tensorflow.keras.backend as K
