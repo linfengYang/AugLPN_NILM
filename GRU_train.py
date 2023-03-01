@@ -317,7 +317,7 @@ train_loss, val_loss, step_train_loss, step_val_loss = nf.customfit(sess=sess,
                                                                     epoch_identifier=None,
                                                                     earlystopping=False,  # 'True' is also okay
                                                                     min_epoch=1,
-                                                                    patience=10)
+                                                                    patience=18)
 
 # Following are training info
 
