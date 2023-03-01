@@ -1,8 +1,8 @@
 """
-There are three functions 'AugLPN_NILM', 'AugPAN_NILM_16',and 'AugPAN_NILM_48'
+There are three functions 'AugLPN_NILM', 'AugLPN_NILM_16',and 'AugLPN_NILM_48'
 Run one,you should annotate the other.
 """
-from NILM_Models import AugLPN_NILM,AugPAN_NILM_16,AugPAN_NILM_48
+from NILM_Models import AugLPN_NILM,AugLPN_NILM_16,AugLPN_NILM_48
 from DataProvider import ChunkDoubleSourceSlider2
 import NetFlowExt as nf
 from Logger import log
