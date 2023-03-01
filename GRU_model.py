@@ -1,4 +1,3 @@
-# from tensorflow.python.keras.layers import GRU
 from tensorflow.python.keras.layers import SeparableConv2D
 
 from Arguments import *
@@ -43,7 +42,7 @@ dropout = 0.3
 # -------------seq2point baseline
 def GRU_model(appliance, input_tensor, window_length, transfer_dense=False, transfer_cnn=False,
               cnn='fridge', pretrainedmodel_dir='./models/', n_dense=1):
-    reshape = Reshape((window_length, 1), )(input_tensor)  # 若效果不好，记得改一下窗口大小
+    reshape = Reshape((window_length, 1), )(input_tensor)  
     cnn1 = Conv1D(filters=16,
                   kernel_size=4,
                   strides=1,
