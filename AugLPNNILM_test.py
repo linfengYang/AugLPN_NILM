@@ -282,49 +282,6 @@ print('\nMAE: {:}\n    -std: {:}\n    -min: {:}\n    -max: {:}\n    -q1: {:}\n  
       .format(*nm.get_abs_error(ground_truth.flatten(), prediction.flatten())))
 print('SAE: {:}'.format(nm.get_sae(ground_truth.flatten(), prediction.flatten(), sample_second)))
 
-# ------------- plot confusion_matrix------------------------
-# true_value, prediction_value = nm.confusion_matrix(prediction.flatten(), ground_truth.flatten(), threshold)
-# true_value = true_value.tolist()
-# prediction_value = prediction_value.tolist()
-# from sklearn.metrics import confusion_matrix
-# import matplotlib.pyplot as plt
-# from matplotlib import rcParams
-# import numpy as np
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# from matplotlib import rcParams
-# classes = ['Off', 'On']
-# C2 = confusion_matrix(true_value, prediction_value)
-# config = {
-#     "font.family": 'Times New Roman',
-# }
-# rcParams.update(config)
-# plt.imshow(C2, interpolation='nearest', cmap=plt.cm.GnBu)
-# # (choices：'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds','YlOrBr', 'YlOrRd',
-# # 'OrRd', 'PuRd', 'RdPu', 'BuPu','GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn')
-# plt.title(f"{appliance_name}",fontsize=15,weight=5)
-# plt.colorbar()  # --
-# tick_marks = np.arange(len(classes))
-# plt.xticks(tick_marks, classes, fontsize=9)
-# plt.yticks(tick_marks, classes, fontsize=9)
-#
-# thresh = C2.max() / 2.
-# iters = np.reshape([[[i,j] for j in range(2)] for i in range(2)],(C2.size,2))
-# for i, j in iters:
-#     if(i==j):
-#         if i==0:
-#             plt.text(j, i, format(C2[i, j]), va='center', ha='center',color='white',fontsize=12,weight=5)  # 显示对应的数字
-#         else:
-#             plt.text(j, i, format(C2[i, j]), va='center', ha='center',fontsize=12,weight=5)  # 显示对应的数字
-#     else:
-#         plt.text(j, i, format(C2[i, j]),va='center',ha='center',fontsize=12)   #显示对应的数字
-# plt.ylabel('Real label',fontsize=10)
-# plt.xlabel('Predicted label',fontsize=10)
-# plt.savefig(f"{appliance_name}_confusion_matrix.png",bbox_inches='tight', pad_inches=0, transparent=True, dpi=300)
-# plt.savefig(f"{appliance_name}_confusion_matrix.svg",bbox_inches='tight', pad_inches=0, transparent=True, dpi=300)
-# plt.tight_layout()
-# plt.show()
-# ------------------------------
 
 # ----------------------------------------------- save results ---------------------------------------------------------
 savemains = test_set_x.flatten() * aggregate_std + aggregate_mean
