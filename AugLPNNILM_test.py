@@ -226,10 +226,10 @@ sess.run(tf.global_variables_initializer())
 # Load path depending on the model kind
 if args.transfer:
     print('arg.transfer'.format(args.transfer))
-    param_file = args.trained_model_dir + '/AugPANP_' + appliance_name + '_transf_' + args.cnn + '_pointnet_model'
+    param_file = args.trained_model_dir + '/AugLPN_' + appliance_name + '_transf_' + args.cnn + '_pointnet_model'
 else:
     print('arg.transfer'.format(args.transfer))
-    param_file = args.trained_model_dir +'/UK_DALE/AugPANP_' + args.appliance_name + '_pointnet_model'
+    param_file = args.trained_model_dir +'/UK_DALE/AugLPN_' + args.appliance_name + '_pointnet_model'
 
 # Loading weigths
 log('Model file: {}'.format(param_file))
