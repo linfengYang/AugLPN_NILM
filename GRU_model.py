@@ -33,13 +33,7 @@ from tensorflow.keras.activations import sigmoid
 # import tensorflow  as tf
 
 # Model setting begin, used in Sequence to point Learning based on bidirectional dilated residual network for nilm
-nb_filters = 128
-filter_length = 3
-dilations = [1, 2, 4, 8, 16, 32, 64, 128]
-dropout = 0.3
 
-
-# -------------seq2point baseline
 def GRU_model(appliance, input_tensor, window_length, transfer_dense=False, transfer_cnn=False,
               cnn='fridge', pretrainedmodel_dir='./models/', n_dense=1):
     reshape = Reshape((window_length, 1), )(input_tensor)  
