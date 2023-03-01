@@ -335,7 +335,7 @@ plt.title('Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig('BitcnNILM_599_loss-{}_mid-point.png'.format(appliance_name))
+plt.savefig('GRU_loss-{}_mid-point.png'.format(appliance_name))
 plt.show()
 # infos = pd.DataFrame(data={'train_loss': train_loss,
 #                            'val_loss': val_loss
