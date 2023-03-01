@@ -112,14 +112,14 @@ params_appliance = {
         'std': 1000,
         's2s_length': 128, },
     'microwave': {
-        'windowlength': 200,  # 249
+        'windowlength': 200,  
         'on_power_threshold': 200,
         'max_on_power': 3969,
         'mean': 500,
         'std': 800,
         's2s_length': 128},
     'fridge': {
-        'windowlength': 200,  # 599
+        'windowlength': 200, 
         'on_power_threshold': 50,
         'max_on_power': 3323,
         'mean': 200,
@@ -310,70 +310,70 @@ log('size: gt={0}'.format(np.shape(savegt)))
 total = len(savemains[offset:-offset])
 
 # ----------------------------------------------- PLOT results ---------------------------------------------------------
-if args.plot_results:
-    ################
-    # import matplotlib as mpl
-    # mpl.use('Agg')
-    ################
-    import matplotlib.pyplot as plt
+# if args.plot_results:
+#     ################
+#     # import matplotlib as mpl
+#     # mpl.use('Agg')
+#     ################
+#     import matplotlib.pyplot as plt
 
-    if args.plot_results:
-        fig1 = plt.figure()
-        plt.axis([0, total, 0, 12000])
-        # plt.xticks([0,total,total])
-        ax1 = fig1.add_subplot(111)
+#     if args.plot_results:
+#         fig1 = plt.figure()
+#         plt.axis([0, total, 0, 12000])
+#         # plt.xticks([0,total,total])
+#         ax1 = fig1.add_subplot(111)
 
-        ax1.plot(savemains[offset:-offset], color='#7f7f7f', linewidth=1.8)
-        # plt.show()
-        # plt.savefig('{}-BiTCN-aggregate.png'.format(args.appliance_name))
-        ax1.plot(ground_truth, color='#d62728', linewidth=1.6)
+#         ax1.plot(savemains[offset:-offset], color='#7f7f7f', linewidth=1.8)
+#         # plt.show()
+#         # plt.savefig('{}-BiTCN-aggregate.png'.format(args.appliance_name))
+#         ax1.plot(ground_truth, color='#d62728', linewidth=1.6)
 
-        # plt.savefig('{}-BiTCN0.png'.format(args.appliance_name))
-        # plt.show()
-        # plt.savefig('{}-BiTCN-truth.png'.format(args.appliance_name))
-        ax1.plot(prediction, color='#1f77b4', linewidth=1.5)
+#         # plt.savefig('{}-BiTCN0.png'.format(args.appliance_name))
+#         # plt.show()
+#         # plt.savefig('{}-BiTCN-truth.png'.format(args.appliance_name))
+#         ax1.plot(prediction, color='#1f77b4', linewidth=1.5)
 
-        plt.xticks([])
-        ax1.grid()
-        # ax1.set_title('Test results on {:}'.format(test_filename), fontsize=16, fontweight='bold', y=1.08)
-        ax1.set_ylabel(args.appliance_name.capitalize() + '\n' + '(Watt)')
-        ax1.set_xlabel('Time(number of samples)')
-        ax1.legend(['Aggregate', 'Ground Truth', 'S2P(this paper)'], loc='best')
+#         plt.xticks([])
+#         ax1.grid()
+#         # ax1.set_title('Test results on {:}'.format(test_filename), fontsize=16, fontweight='bold', y=1.08)
+#         ax1.set_ylabel(args.appliance_name.capitalize() + '\n' + '(Watt)')
+#         ax1.set_xlabel('Time(number of samples)')
+#         ax1.legend(['Aggregate', 'Ground Truth', 'S2P(this paper)'], loc='best')
 
-        mng = plt.get_current_fig_manager()
-        # mng.resize(*mng.window.maxsize())
-        plt.savefig('{}-BiTCN.pdf'.format(args.appliance_name))
-        plt.show(fig1)
+#         mng = plt.get_current_fig_manager()
+#         # mng.resize(*mng.window.maxsize())
+#         plt.savefig('{}-BiTCN.pdf'.format(args.appliance_name))
+#         plt.show(fig1)
 
-        # subplot
+#         # subplot
 
-        plt.subplot(311)
-        plt.title(appliance_name)
-        plt.plot(savemains[offset:-offset])
-        # plt.axis([0,total,0,6000])
-        plt.yticks(np.linspace(0, 6000, 3, endpoint=True))
-        plt.xticks([0, 200000, total])
-        plt.ylabel('Aggregate', fontsize=10)
+#         plt.subplot(311)
+#         plt.title(appliance_name)
+#         plt.plot(savemains[offset:-offset])
+#         # plt.axis([0,total,0,6000])
+#         plt.yticks(np.linspace(0, 6000, 3, endpoint=True))
+#         plt.xticks([0, 200000, total])
+#         plt.ylabel('Aggregate', fontsize=10)
 
-        plt.subplot(312)
-        plt.plot(ground_truth)
-        plt.axis([0, total, 0, 3000])
-        plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
-        plt.xticks([0, 200000, total])
-        plt.ylabel('Ground Truth', fontsize=10)
+#         plt.subplot(312)
+#         plt.plot(ground_truth)
+#         plt.axis([0, total, 0, 3000])
+#         plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
+#         plt.xticks([0, 200000, total])
+#         plt.ylabel('Ground Truth', fontsize=10)
 
-        plt.subplot(313)
-        plt.plot(prediction)
-        plt.axis([0, total, 0, 3000])
-        plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
-        plt.xticks([0, 200000, total])
-        plt.ylabel('S2P(this paper)', fontsize=10)
+#         plt.subplot(313)
+#         plt.plot(prediction)
+#         plt.axis([0, total, 0, 3000])
+#         plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
+#         plt.xticks([0, 200000, total])
+#         plt.ylabel('AlexNet1D(this paper)', fontsize=10)
 
-        log('size: x={0}'.format(np.shape(savemains[offset:-offset])))
-        log('size: y={0}'.format(np.shape(savepred)))
-        log('size: gt={0}'.format(np.shape(savegt)))
-        plt.subplots_adjust(bottom=0.2, right=0.7, top=0.9, hspace=0.3)
-        plt.savefig('{}-BiTCN_subplot.pdf'.format(args.appliance_name))
+#         log('size: x={0}'.format(np.shape(savemains[offset:-offset])))
+#         log('size: y={0}'.format(np.shape(savepred)))
+#         log('size: gt={0}'.format(np.shape(savegt)))
+#         plt.subplots_adjust(bottom=0.2, right=0.7, top=0.9, hspace=0.3)
+#         plt.savefig('{}-AlexNet1D_subplot.pdf'.format(args.appliance_name))
 
 
 
