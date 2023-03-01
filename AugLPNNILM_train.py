@@ -1,6 +1,6 @@
 """
 There are three functions 'AugLPN_NILM', 'AugLPN_NILM_16',and 'AugLPN_NILM_48'
-Run one,you should annotate the other.
+Run one,you should annotate the others.
 """
 from NILM_Models import AugLPN_NILM,AugLPN_NILM_16,AugLPN_NILM_48
 from DataProvider import ChunkDoubleSourceSlider2
