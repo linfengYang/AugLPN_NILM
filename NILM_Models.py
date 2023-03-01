@@ -31,6 +31,102 @@ from tensorflow.keras.activations import sigmoid
 
 # Model setting begin, used in Sequence to point Learning based on bidirectional GRU and PAN network for nilm  
 # --------------------------------
+# -------------seq2point baseline
+def S2P_model(appliance, input_tensor, window_length, transfer_dense=False, transfer_cnn=False,
+              cnn='fridge', pretrainedmodel_dir='./models/', n_dense=1):
+    reshape = Reshape((-1, window_length, 1), )(input_tensor)
+    cnn1 = Conv2D(filters=30,
+                  kernel_size=(10, 1),
+                  strides=(1, 1),
+                  padding='same',
+                  activation='relu',
+                  )(reshape)
+
+    cnn2 = Conv2D(filters=30,
+                  kernel_size=(8, 1),
+                  strides=(1, 1),
+                  padding='same',
+                  activation='relu',
+                  )(cnn1)
+
+    cnn3 = Conv2D(filters=40,
+                  kernel_size=(6, 1),
+                  strides=(1, 1),
+                  padding='same',
+                  activation='relu',
+                  )(cnn2)
+
+    cnn4 = Conv2D(filters=50,
+                  kernel_size=(5, 1),
+                  strides=(1, 1),
+                  padding='same',
+                  activation='relu',
+                  )(cnn3)
+
+    cnn5 = Conv2D(filters=50,
+                  kernel_size=(5, 1),
+                  strides=(1, 1),
+                  padding='same',
+                  activation='relu',
+                  )(cnn4)
+
+    flat = Flatten(name='flatten')(cnn5)
+
+    d = Dense(1024, activation='relu', name='dense')(flat)
+
+    # if n_dense == 1:
+    #     label = d
+    # elif n_dense == 2:
+    #     d1 = Dense(1024, activation='relu', name='dense1')(d)
+    #     label = d1
+    # elif n_dense == 3:
+    #     d1 = Dense(1024, activation='relu', name='dense1')(d)
+    #     d2 = Dense(1024, activation='relu', name='dense2')(d1)
+    #     label = d2
+
+    d_out = Dense(1, activation='linear', name='output')(d)
+
+    model = Model(inputs=input_tensor, outputs=d_out)
+    # Model setting done
+    ####model structure done!
+    ##############################
+    # session = K.get_session() # For Tensorflow 1
+    session = tf.keras.backend.get_session()  # For Tensorflow 2
+    #   The name tf.keras.backend.get_session is deprecated. Please use tf.compat.v1.keras.backend.get_session instead.
+    ##############################
+    # For transfer learning
+    if transfer_dense:
+        log("Transfer learning...")
+        log("...loading an entire pre-trained model")
+        weights_loader(model, pretrainedmodel_dir + '/cnn_s2p_' + appliance + '_pointnet_model')
+        model_def = model
+    elif transfer_cnn and not transfer_dense:
+        log("Transfer learning...")
+        log('...loading a ' + appliance + ' pre-trained-cnn')
+        cnn_weights_loader(model, cnn, pretrainedmodel_dir)
+        model_def = model
+        for idx, layer1 in enumerate(model_def.layers):
+            if hasattr(layer1, 'kernel_initializer') and 'conv2d' not in layer1.name and 'cnn' not in layer1.name:
+                log('Re-initialize: {}'.format(layer1.name))
+                layer1.kernel.initializer.run(session=session)
+
+    elif not transfer_dense and not transfer_cnn:
+        log("Standard training...")
+        log("...creating a new model.")
+        model_def = model
+    else:
+        raise argparse.ArgumentTypeError('Model selection error.')
+    # Printing, logging and plotting the model
+    # print_summary(model_def)
+    model_def.summary()
+    # plot_model(model, to_file='./model.png', show_shapes=True, show_layer_names=True, rankdir='TB')
+
+    # Adding network structure to both the log file and output terminal
+    files = [x for x in os.listdir('./') if x.endswith(".log")]
+    with open(max(files, key=os.path.getctime), 'a') as fh:
+        # Pass the file handle in as a lambda function to make it callable
+        model_def.summary(print_fn=lambda x: fh.write(x + '\n'))
+    return model_def
 
 def C2(x, channel):
     layer2 = Conv2D(filters=channel * 2,
