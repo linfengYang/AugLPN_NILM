@@ -2,7 +2,7 @@ from Logger import log
 from DataProvider import DoubleSourceProvider3
 import NetFlowExt as nf
 import nilm_metric as nm
-from NILM_Models import weights_loader,AugPAN_NILM,AugPAN_AM_NILM
+from NILM_Models import weights_loader,AugLPN_NILM,AugLPN_NILM_16,AugLPN_NILM_48
 import numpy as np
 
 ###############################
@@ -109,14 +109,14 @@ params_appliance = {
         'std': 1000,
         's2s_length': 128, },
     'microwave': {
-        'windowlength': 600,  # 249
+        'windowlength': 600,  
         'on_power_threshold': 200,
         'max_on_power': 3969,
         'mean': 500,
         'std': 800,
         's2s_length': 128},
     'fridge': {
-        'windowlength': 600,  # 599
+        'windowlength': 600, 
         'on_power_threshold': 50,
         'max_on_power': 3323,
         'mean': 200,
@@ -201,17 +201,23 @@ y_ = tf.placeholder(tf.float32,
 # -------------------------------- Keras Network - from model.py -------------------------------------
 inp = Input(tensor=x)
 
-# model = AugPAN_NILM(args.appliance_name,
+model = AugLPN_NILM(args.appliance_name,
+                  inp,
+                  params_appliance[args.appliance_name]['windowlength'],
+                  )
+y = model.outputs
+
+# model = AugLPN_NILM_16(args.appliance_name,
 #                   inp,
 #                   params_appliance[args.appliance_name]['windowlength'],
 #                   )
 # y = model.outputs
 
-model = AugPAN_AM_NILM(args.appliance_name,
-                  inp,
-                  params_appliance[args.appliance_name]['windowlength'],
-                  )
-y = model.outputs
+# model = AugLPN_NILM_48(args.appliance_name,
+#                   inp,
+#                   params_appliance[args.appliance_name]['windowlength'],
+#                   )
+# y = model.outputs
 
 # ----------------------------------------------------------------------------------------------------
 
@@ -388,7 +394,7 @@ total = len(savemains[offset:-offset])
 #
 #         mng = plt.get_current_fig_manager()
 #         # mng.resize(*mng.window.maxsize())
-#         plt.savefig('{}-AugPANNILM.pdf'.format(args.appliance_name))
+#         plt.savefig('{}-AugLPNNILM.pdf'.format(args.appliance_name))
 #         plt.show(fig1)
 #
 #         # subplot
@@ -413,13 +419,13 @@ total = len(savemains[offset:-offset])
 #         plt.axis([0, total, 0, 3000])
 #         plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
 #         plt.xticks([0, 200000, total])
-#         plt.ylabel('AugPANNILM(this paper)', fontsize=10)
+#         plt.ylabel('AugLPNNILM(this paper)', fontsize=10)
 #
 #         log('size: x={0}'.format(np.shape(savemains[offset:-offset])))
 #         log('size: y={0}'.format(np.shape(savepred)))
 #         log('size: gt={0}'.format(np.shape(savegt)))
 #         plt.subplots_adjust(bottom=0.2, right=0.7, top=0.9, hspace=0.3)
-#         plt.savefig('{}-AugPANNILM_subplot.pdf'.format(args.appliance_name))
+#         plt.savefig('{}-AugLPNNILM_subplot.pdf'.format(args.appliance_name))
 
 
 
