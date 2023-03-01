@@ -138,7 +138,7 @@ class ChunkDoubleSourceSlider2(object):
                                 )
 
         for chunk in check_cvs:
-            size = chunk.shape[0]  # .shape[0]获取行数
+            size = chunk.shape[0]  
             self.total_size += size
             del chunk
         log('Size of the dataset is {:.3f} M rows.'.format(self.total_size / 10 ** 6))
@@ -162,10 +162,8 @@ class ChunkDoubleSourceSlider2(object):
                                      )
 
             skip_idx = np.arange(self.total_size/self.chunksize)
-            # print('indices前30：',skip_idx[0:30],'shuffle:', self.shuffle)
             if self.shuffle:
                 np.random.shuffle(skip_idx)
-            # print('indices前30-------------：',skip_idx[0:30],'shuffle:', self.shuffle)
             log(str(skip_idx), 'debug')
 
             for i in skip_idx:
@@ -182,7 +180,6 @@ class ChunkDoubleSourceSlider2(object):
                 inputs, targets = np_array[:, 0], np_array[:, 1]
 
                 max_batchsize = inputs.size - 2 * self.offset  #inputs.size - 2 * self.offset
-                # print('offset的值：', self.offset)
 
                 if self.batchsize < 0:
                     self.batchsize = max_batchsize
@@ -196,8 +193,8 @@ class ChunkDoubleSourceSlider2(object):
                 for start_idx in range(0, max_batchsize, self.batchsize):
                     excerpt = indices[start_idx:start_idx + self.batchsize]
 
-                    inp = np.array([inputs[idx:idx + 600] for idx in excerpt])  # 2 * self.offset + 1
-                    tar = targets[excerpt + 300].reshape(-1, 1)  # self.offset
+                    inp = np.array([inputs[idx:idx + 2 * self.offset] for idx in excerpt]) 
+                    tar = targets[excerpt + self.offset].reshape(-1, 1)  # 
 
                     yield inp, tar
 
@@ -210,24 +207,23 @@ class ChunkDoubleSourceSlider2(object):
                                      )
 
             np_array = np.array(data_frame)
-            inputs, targets = np_array[:, 0], np_array[:, 1]  # training_csv数据有两列（总功率，电器功率），均经过标准化
+            inputs, targets = np_array[:, 0], np_array[:, 1]
 
-            max_batchsize = inputs.size - 2 * self.offset  # 2*self.offset=598
+            max_batchsize = inputs.size - 2 * self.offset 
             if self.batchsize < 0:
                 self.batchsize = max_batchsize
 
             # define indices and shuffle them if necessary
             indices = np.arange(max_batchsize)
-            # print('indices前30：',indices[0:30],'shuffle:', self.shuffle)
+
             if self.shuffle:
                 np.random.shuffle(indices)
-            # print('indices前30：',indices[0:30],'shuffle:', self.shuffle)
-            # providing sliding windows:
-            for start_idx in range(0, max_batchsize, self.batchsize):
-                excerpt = indices[start_idx:start_idx + self.batchsize]  # 每次一个batchsize长度
 
-                inp = np.array([inputs[idx:idx + 600] for idx in excerpt]) #batchsize个599*1
-                tar = targets[excerpt + 300].reshape(-1, 1)  # 每599个输入对应的中点值 self.offset
+            for start_idx in range(0, max_batchsize, self.batchsize):
+                excerpt = indices[start_idx:start_idx + self.batchsize]  
+
+                inp = np.array([inputs[idx:idx + 2*self.offset] for idx in excerpt]) 
+                tar = targets[excerpt + self.offset].reshape(-1, 1)   
 
                 yield inp, tar
 
@@ -492,7 +488,7 @@ class DoubleSourceProvider3(object):
 
     def feed(self, inputs):
 
-        inputs = inputs.flatten()  # 将所有测试数据集 拉直
+        inputs = inputs.flatten()  
         ###########
         # inputs = np.pad(inputs,(self.offset,self.offset),'constant',constant_values=(0,0))
         ############
@@ -507,7 +503,7 @@ class DoubleSourceProvider3(object):
         for start_idx in range(0, max_nofw, self.nofWindows):
             excerpt = indices[start_idx:start_idx + self.nofWindows]
 
-            inp = np.array([inputs[idx:idx + 600] for idx in excerpt])  # 2 * self.offset + 1
+            inp = np.array([inputs[idx:idx + 2 * self.offset] for idx in excerpt]) 
 
             yield inp
 
@@ -896,16 +892,16 @@ class ChunkS2S_Slider(object):
                 self.batchsize = max_batchsize
 
             # define indices and shuffle them if necessary
-            indices = np.arange(max_batchsize) #start默认为0，stop为max_batchsize，步长默认为1
+            indices = np.arange(max_batchsize)
             if self.shuffle:
                 np.random.shuffle(indices)
 
             # providing sliding windows:
-            for start_idx in range(0, max_batchsize, self.batchsize): #[0,1000,2000,3000,.....max_batchsize]
+            for start_idx in range(0, max_batchsize, self.batchsize):
                 excerpt = indices[start_idx:start_idx + self.batchsize]
 
-                inp = np.array([inputs[idx:idx + self.length] for idx in excerpt])  #这会得到一个ndarray
-                #inp=[array([0, 1, 2,....599]) array([1, 2, ....600]) ......array([999, 1000,.....1598])]
+                inp = np.array([inputs[idx:idx + self.length] for idx in excerpt])  
+
                 tar = np.array([targets[idx:idx + self.length] for idx in excerpt])
 
                 yield inp, tar
