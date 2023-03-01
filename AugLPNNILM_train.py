@@ -1,8 +1,8 @@
 """
-There are two functions 'AugPAN_NILM' and 'AugPAN_AM_NILM'
+There are three functions 'AugLPN_NILM', 'AugPAN_NILM_16',and 'AugPAN_NILM_48'
 Run one,you should annotate the other.
 """
-from NILM_Models import AugPAN_NILM,AugPAN_AM_NILM
+from NILM_Models import AugLPN_NILM,AugPAN_NILM_16,AugPAN_NILM_48
 from DataProvider import ChunkDoubleSourceSlider2
 import NetFlowExt as nf
 from Logger import log
@@ -225,7 +225,7 @@ y_ = tf.placeholder(tf.float32,
 
 # -------------------------------- Keras Network - from model.py -----------------------------------------
 inp = Input(tensor=x)
-# model = AugPAN_NILM(args.appliance_name,
+# model = AugLPN_NILM(args.appliance_name,
 #                   inp,
 #                   params_appliance[args.appliance_name]['windowlength'],
 #                   transfer_dense=args.transfer_model,
@@ -235,7 +235,7 @@ inp = Input(tensor=x)
 # # cnn_check_weights
 # y = model.outputs
 
-model = AugPAN_AM_NILM(args.appliance_name,
+model = AugLPN_NILM_16(args.appliance_name,
                   inp,
                   params_appliance[args.appliance_name]['windowlength'],
                   transfer_dense=args.transfer_model,
@@ -244,6 +244,15 @@ model = AugPAN_AM_NILM(args.appliance_name,
                   pretrainedmodel_dir=args.pretrainedmodel_dir)
 # cnn_check_weights
 y = model.outputs
+# model = AugLPN_NILM_48(args.appliance_name,
+#                   inp,
+#                   params_appliance[args.appliance_name]['windowlength'],
+#                   transfer_dense=args.transfer_model,
+#                   transfer_cnn=args.transfer_cnn,
+#                   cnn=args.cnn,
+#                   pretrainedmodel_dir=args.pretrainedmodel_dir)
+# # cnn_check_weights
+# y = model.outputs
 
 # -------------------------------------------------------------------------------------------------------
 # cost function
@@ -301,9 +310,9 @@ log('TensorBoard infos in ./tensorboard_test')
 
 # Save path depending on the training behaviour
 if not args.transfer_model and args.transfer_cnn:
-    save_path = args.save_dir + '/AugPANP_' + appliance_name + '_transf_' + args.cnn + '_pointnet_model'
+    save_path = args.save_dir + '/AugLPN_' + appliance_name + '_transf_' + args.cnn + '_pointnet_model'
 else:
-    save_path = args.save_dir + '/AugPANP_' + appliance_name + '_pointnet_model'
+    save_path = args.save_dir + '/AugLPN_' + appliance_name + '_pointnet_model'
 
 if not os.path.exists(save_path):
     os.makedirs(save_path)
@@ -323,9 +332,9 @@ train_loss, val_loss, step_train_loss, step_val_loss = nf.customfit(sess=sess,
                                                                     save_model=args.save_model,
                                                                     save_path=save_path,
                                                                     epoch_identifier=None,
-                                                                    earlystopping=False,  # 禁用早停机制False
+                                                                    earlystopping=False, 
                                                                     min_epoch=1,
-                                                                    patience=10)
+                                                                    patience=18)
 
 # Following are training info
 
@@ -343,7 +352,7 @@ plt.title('Training and validation loss')
 plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig('BitcnNILM_599_loss-{}_mid-point.png'.format(appliance_name))
+plt.savefig('AugLPN_loss-{}_mid-point.png'.format(appliance_name))
 plt.show()
 # infos = pd.DataFrame(data={'train_loss': train_loss,
 #                            'val_loss': val_loss
