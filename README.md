@@ -18,9 +18,8 @@ AAAI Press, 2018.
 
 # Get the paper results quickly
 Some already well-trained models ('*.h5' files) are in the folder directory '/models' 
-Change the file path (refer to the parameter 'param_file')  in the AugPANNILM_test.py, and you will get the results soon.
-    For example: param_file = args.trained_model_dir + '/UK_DALE'+ '/AugPANP_' + args.appliance_name + '_pointnet_model'
-note:AugPAN and AugPANP (AugPAN with attention mechanism) are our proposed models
+Change the file path (refer to the parameter 'param_file')  in the AugLPNNILM_test.py, and you will get the results soon.
+    For example: param_file = args.trained_model_dir + '/UK_DALE'+ '/AugLPN_' + args.appliance_name + '_pointnet_model'
 
 # --------------------***Reproduce  our results***-----start--------------------
 # 1. Prepare training and test dataset for REDD and UK_DALE
@@ -43,11 +42,11 @@ The structure of folder directory is as follows:
         ukdale_processing.py
 
 # 2. Start the training
-You can run AugPANNILM_train.py to verify the results in our paper after you have preprocessed all the dataset.
+You can run AugLPNNILM_train.py to verify the results in our paper after you have preprocessed all the dataset.
 The best results('*.h5' files) will be stored in the file directory '/models'
 # 3. Start the test
-Change the file path (refer to the parameter 'param_file')  in the AugPANNILM_test.py, and you will get the results soon.
-    for example: param_file = args.trained_model_dir + '/AugPANP_' + args.appliance_name + '_pointnet_model'
+Change the file path (refer to the parameter 'param_file')  in the AugLPNNILM_test.py, and you will get the results soon.
+    for example: param_file = args.trained_model_dir + '/AugLPN_' + args.appliance_name + '_pointnet_model'
 # --------------------***Reproduce  our results***-----end--------------------
 
 Contact e-mail:
