@@ -112,14 +112,14 @@ params_appliance = {
         'std': 1000,
         's2s_length': 128, },
     'microwave': {
-        'windowlength': 100,  # 249
+        'windowlength': 100, 
         'on_power_threshold': 200,
         'max_on_power': 3969,
         'mean': 500,
         'std': 800,
         's2s_length': 128},
     'fridge': {
-        'windowlength': 100,  # 599
+        'windowlength': 100,  
         'on_power_threshold': 50,
         'max_on_power': 3323,
         'mean': 200,
@@ -179,7 +179,7 @@ log('Loading from: ' + loadname_test)
 
 # offset parameter from windowlenght
 offset = 50
-test_set_x, test_set_y, ground_truth = load_dataset(loadname_test)  # 全部测试数据集
+test_set_x, test_set_y, ground_truth = load_dataset(loadname_test) 
 sess = tf.InteractiveSession()
 
 # Dictonary containing the dataset input and target
@@ -327,12 +327,7 @@ if args.plot_results:
 
         ax1.plot(savemains[offset:-offset], color='#7f7f7f', linewidth=1.8)
         # plt.show()
-        # plt.savefig('{}-BiTCN-aggregate.png'.format(args.appliance_name))
         ax1.plot(ground_truth, color='#d62728', linewidth=1.6)
-
-        # plt.savefig('{}-BiTCN0.png'.format(args.appliance_name))
-        # plt.show()
-        # plt.savefig('{}-BiTCN-truth.png'.format(args.appliance_name))
         ax1.plot(prediction, color='#1f77b4', linewidth=1.5)
 
         plt.xticks([])
@@ -344,7 +339,7 @@ if args.plot_results:
 
         mng = plt.get_current_fig_manager()
         # mng.resize(*mng.window.maxsize())
-        plt.savefig('{}-BiTCN.pdf'.format(args.appliance_name))
+        plt.savefig('{}-GRU.pdf'.format(args.appliance_name))
         plt.show(fig1)
 
         # subplot
@@ -369,13 +364,13 @@ if args.plot_results:
         plt.axis([0, total, 0, 3000])
         plt.yticks(np.linspace(0, 3000, 4, endpoint=True))
         plt.xticks([0, 200000, total])
-        plt.ylabel('S2P(this paper)', fontsize=10)
+        plt.ylabel('GRU', fontsize=10)
 
         log('size: x={0}'.format(np.shape(savemains[offset:-offset])))
         log('size: y={0}'.format(np.shape(savepred)))
         log('size: gt={0}'.format(np.shape(savegt)))
         plt.subplots_adjust(bottom=0.2, right=0.7, top=0.9, hspace=0.3)
-        plt.savefig('{}-BiTCN_subplot.pdf'.format(args.appliance_name))
+        plt.savefig('{}-GRU_subplot.pdf'.format(args.appliance_name))
 
 
 
