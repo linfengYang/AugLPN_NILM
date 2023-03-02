@@ -225,17 +225,7 @@ y_ = tf.placeholder(tf.float32,
 
 # -------------------------------- Keras Network - from model.py -----------------------------------------
 inp = Input(tensor=x)
-# model = AugLPN_NILM(args.appliance_name,
-#                   inp,
-#                   params_appliance[args.appliance_name]['windowlength'],
-#                   transfer_dense=args.transfer_model,
-#                   transfer_cnn=args.transfer_cnn,
-#                   cnn=args.cnn,
-#                   pretrainedmodel_dir=args.pretrainedmodel_dir)
-# # cnn_check_weights
-# y = model.outputs
-
-model = AugLPN_NILM_16(args.appliance_name,
+model = AugLPN_NILM(args.appliance_name,
                   inp,
                   params_appliance[args.appliance_name]['windowlength'],
                   transfer_dense=args.transfer_model,
@@ -244,6 +234,16 @@ model = AugLPN_NILM_16(args.appliance_name,
                   pretrainedmodel_dir=args.pretrainedmodel_dir)
 # cnn_check_weights
 y = model.outputs
+
+# model = AugLPN_NILM_16(args.appliance_name,
+#                   inp,
+#                   params_appliance[args.appliance_name]['windowlength'],
+#                   transfer_dense=args.transfer_model,
+#                   transfer_cnn=args.transfer_cnn,
+#                   cnn=args.cnn,
+#                   pretrainedmodel_dir=args.pretrainedmodel_dir)
+# # cnn_check_weights
+# y = model.outputs
 # model = AugLPN_NILM_48(args.appliance_name,
 #                   inp,
 #                   params_appliance[args.appliance_name]['windowlength'],
